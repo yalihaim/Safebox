@@ -37,11 +37,13 @@ FILE_ENCRYPTION_KEY=a3f1d0b334e8a2efc9c1b5e9481cbeb2f2c82cf71d60a019ef1e6277aa9f
 
 Starting the client and the server:
 -------------------------------------
-To start the server on a local host configuration :
-uvicorn server:app --host 0.0.0.0 --port 8443 --ssl-keyfile=./key.pem --ssl-certfile=./cert.pem
+To start the server on a local host configuration
+uvicorn server:app --host 127.0.0.1 --port 8443 --ssl-keyfile=./key.pem --ssl-certfile=./cert.pem --reload --log-level debug --access-log
 
 Run the client with CLI:
 ---------------------------
-python client.py download go.txt client124
+python client.py upload client123 go.txt
+python client.py list client123
+python client.py download client123 go.txt
 
 Supported commands: upload, download, list

@@ -86,6 +86,7 @@ def list_files(
     x_client_id: str = Header(...),
     x_api_key: str = Header(...)
 ):
+    print("📥 Received GET /list request from:", x_client_id, flush=True)
     validate_client(x_client_id, x_api_key)
     client_dir = BASE_DIR / x_client_id
     if not client_dir.exists():

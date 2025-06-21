@@ -82,7 +82,8 @@ class PrettySafeBoxGUI(ctk.CTk):
         try:
             response = client.list_files(self.client_id.get())
             if response.status_code == 200:
-                self.log("📁 Files:\n" + "\n".join(response.json()))
+                files = response.json().get("files", [])
+                self.log("📁 Files:\n" + "\n".join(files))
             else:
                 self.log(f"❌ List error: {response.status_code} - {response.text}")
         except Exception as e:

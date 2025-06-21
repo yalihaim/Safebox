@@ -1,0 +1,47 @@
+Create python virtual env ( in the server folder):
+------------------------------
+1. create venv folder:
+python -m venv .venv
+2. activate:
+In Windows:
+.venv\Scripts\activate
+In Linux:
+source venv/bin/activate
+
+3. Install dependencies:
+
+pip install -r requirements.txt
+
+
+
+Certificate creation for athentication of clients:
+-----------------------------------------------------
+Create certificate for client authentication on connection ( this will create key.pem and cert.pem files ):
+openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout key.pem -out cert.pem   -subj "/C=US/ST=State/L=City/O=Org/CN=localhost"
+
+
+
+Key creation and storage ( .env ) for encrypting the server storage:
+---------------------------------------------------------------------
+1. Create a key for AES_GCM encryption
+AES-GCM requires a 256-bit (32-byte) key. You can generate it using Python:
+python3 -c "import os; print(os.urandom(32).hex())"
+
+2. load the key to a .env file so that it can be used as env. variable from the code.
+edit .env file ( in the same directory as the server )
+FILE_ENCRYPTION_KEY=your_64_char_hex_key_here
+
+for example:
+FILE_ENCRYPTION_KEY=a3f1d0b334e8a2efc9c1b5e9481cbeb2f2c82cf71d60a019ef1e6277aa9f7462
+
+
+Starting the client and the server:
+-------------------------------------
+To start the server on a local host configuration :
+uvicorn server:app --host 0.0.0.0 --port 8443 --ssl-keyfile=./key.pem --ssl-certfile=./cert.pem
+
+Run the client with CLI:
+---------------------------
+python client.py download go.txt client124
+
+Supported commands: upload, download, list
